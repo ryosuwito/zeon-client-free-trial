@@ -153,9 +153,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = '/mnt/volume/static/'
+STATIC_ROOT = '/mnt/volume/blog.indogaming/static/'
 
-MEDIA_ROOT =  '/mnt/volume/media/'
+MEDIA_ROOT =  '/mnt/volume/blog.indogaming/media/'
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
