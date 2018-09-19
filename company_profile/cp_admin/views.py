@@ -67,8 +67,6 @@ class Login(Dispatcher):
                         is_allowed = True
                 except:
                     pass
-
-                return HttpResponse(is_allowed)
                 if is_allowed:
                     login(request, user)
                     return JsonResponse({'new_token': get_token(request), 'redirect_url':reverse('cms:index')}, status=200)
