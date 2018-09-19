@@ -28,7 +28,8 @@ class Login(Dispatcher):
         code = request.GET.get('code', 200)
         token = get_token(request)
         data = super(Login, self).get(request, args, kwargs)
-        configs = UserConfigs.objects.get(member = data['member'])
+        if data['member']:
+            configs = UserConfigs.objects.get(member = data['member'])
         self.component['base']='cp_admin/component/login_base.html'
         self.component['header']='cp_admin/component/login_header.html'
         self.component['main']='cp_admin/component/login_main.html'
@@ -53,7 +54,7 @@ class Login(Dispatcher):
             user = authenticate(username=username,
                 password=password)
             if user is not None : 
-                if user.user_member.site == data['site']:
+                if user.user_member.site == data['site'] or user.user_staff.site == data['site']:
                     login(request, user)
                     return JsonResponse({'new_token': get_token(request), 'redirect_url':reverse('cms:index')}, status=200)
                 else:
