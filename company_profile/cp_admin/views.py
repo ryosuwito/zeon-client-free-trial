@@ -59,13 +59,13 @@ class Login(Dispatcher):
                 try:
                     if user.user_member.site == data['site'] :
                         is_allowed = True
-                except expression as identifier:
+                except:
                     pass
 
                 try:
                     if user.user_staff.site == data['site'] :
                         is_allowed = True
-                except expression as identifier:
+                except:
                     pass
 
                 return HttpResponse(is_allowed)
