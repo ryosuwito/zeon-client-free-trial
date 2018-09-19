@@ -59,7 +59,7 @@ class Login(Dispatcher):
                     return JsonResponse({'new_token': get_token(request), 'redirect_url':reverse('cms:index')}, status=200)
                 else:
                     return  HttpResponse(status=403)
-            return HttpResponse(status=404)
+        return HttpResponse(status=404)
 
 class Index(LoginRequiredMixin, Dispatcher):
     login_url = '/cms/login/'
