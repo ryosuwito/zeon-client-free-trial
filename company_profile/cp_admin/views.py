@@ -54,8 +54,22 @@ class Login(Dispatcher):
             user = authenticate(username=username,
                 password=password)
             if user is not None : 
-                return HttpResponse(user.username)
-                if user.user_member.site == data['site'] or user.user_staff.site == data['site']:
+                
+                is_allowed = False
+                try:
+                    if user.user_member.site == data['site'] :
+                        is_allowed = True
+                except expression as identifier:
+                    pass
+
+                try:
+                    if user.user_staff.site == data['site'] :
+                        is_allowed = True
+                except expression as identifier:
+                    pass
+
+                return HttpResponse(is_allowed)
+                if is_allowed:
                     login(request, user)
                     return JsonResponse({'new_token': get_token(request), 'redirect_url':reverse('cms:index')}, status=200)
                 else:
