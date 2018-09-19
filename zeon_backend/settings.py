@@ -25,12 +25,13 @@ SECRET_KEY = 'dli3^=1mdk6vj-d+k*e8=49o^g35gqhc7_3)l4m^++wa^h)b8j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['178.128.115.116',
-                'trials.sidomo.com',
+ALLOWED_HOSTS = ['206.189.83.32',
+                'blog.indogaming.shop',
                 '.co.id',
                 '.com',
                 '.biz',
-                '.net',]
+                '.net',
+                '.shop',]
 
 
 # Application definition
@@ -244,3 +245,4 @@ TAGGIT_SELECTIZE = {
     'DRAG_DROP': False,
     'DELIMITER': ','
 }
+SITE_ID = 1
