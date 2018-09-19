@@ -107,9 +107,9 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'db_sidomo',
-        'USER': 'db_admin',
-        'PASSWORD': 'Bismilllah123',
+        'NAME': 'cms_db',
+        'USER': 'cms_admin',
+        'PASSWORD': 'Monktoet221008',
         'HOST': 'localhost',
         'PORT': '',
     }
