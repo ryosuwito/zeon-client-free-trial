@@ -22,7 +22,10 @@ class Dispatcher(View):
     component = {}
     def get(self, request, *args, **kwargs):
         site = get_current_site(request)
-        member = Member.objects.get(site=site)
+        try:
+            member = Member.objects.get(site=site)
+        except:
+            member = ""
         return {'member':member, 'site':site}
     def post(self, request, *args, **kwargs):
         pass
