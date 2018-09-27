@@ -7,7 +7,7 @@ from django.utils.crypto import get_random_string
 from taggit_selectize.managers import TaggableManager
 from ckeditor.fields import RichTextField
 
-from membership.models import Member
+from membership.models import Member, Staff
 
 import datetime
 
@@ -45,7 +45,7 @@ class Article(models.Model):
     lead_in = models.CharField(max_length=1000, default="", blank=True)
     content = RichTextField(null=True, blank=True)
     site = models.ForeignKey(Site, related_name="article_site", on_delete=models.CASCADE,null=True, blank=True)
-    author = models.ForeignKey(Member, null=True, blank=True,
+    author = models.ForeignKey(Staff, null=True, blank=True,
                                 on_delete=models.CASCADE,
                                 related_name="article_author", 
                                 verbose_name='author')
