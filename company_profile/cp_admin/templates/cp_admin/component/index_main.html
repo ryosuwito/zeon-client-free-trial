@@ -82,7 +82,9 @@
                                 {% for article in site.article_site.all %}
                                 <p onclick="window.open('{{ article.get_article_url }}', '_blank')" style="margin: 0; padding: 0" class="btn btn-link text-info">{{ article.title | title | truncatechars:60 }}</p>
                                 <a href='javascript:void(0)' onclick="getNext('{{ article.get_edit_url }}')"class="btn btn-link btn-sm text-info"><span class="fa fa-edit"></span></a>
+                                {% if request.user.is_superuser %}
                                 <a href='javascript:void(0)' onclick="getNext('{{ article.get_delete_url }}')" class="btn btn-link btn-sm text-danger"><span class="fa fa-trash"></span></a>
+                                {% endif %}
                                 <br>
                                 {% endfor %}
                             </div>
@@ -140,7 +142,9 @@
                                     {% for category in site.category_site.all %}
                                     <p onclick="window.open('/{{ category.slug }}', '_blank')" style="margin: 0; padding: 0" class="btn btn-link text-info">{{category.title | truncatechars:30 | title }}</p>
                                     <a href='javascript:void(0)' onclick="getNext('{{ category.get_edit_url }}')"class="btn btn-link btn-sm text-info"><span class="fa fa-edit"></span></a>
+                                    {% if request.user.is_superuser %}
                                     <a href='javascript:void(0)' onclick="getNext('{{ category.get_delete_url }}')" class="btn btn-link btn-sm text-danger"><span class="fa fa-trash"></span></a>
+                                    {% endif %}
                                     <br>
                                     {% endfor %}
                                 </p>
