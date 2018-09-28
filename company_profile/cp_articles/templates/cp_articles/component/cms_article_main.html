@@ -28,7 +28,7 @@
                         <h6>Published</h6>
                     </div>
                     <div class="col-xs-2 col-sm-1" style="text-align: center">
-                        <h6>Featured</h6>
+                        <h6>Author</h6>
                     </div>
                     <div class="col-xs-4 col-sm-4" style="text-align: left">
                         <h6>Title</h6>
@@ -57,11 +57,7 @@
                                 {% endif %}
                             </div>
                             <div class="col-xs-2 col-sm-1" style="text-align: center">
-                                {% if  article.is_featured %}
-                                <span class="text-success fa fa-check"></span>
-                                {% else %}
-                                <span class="text-danger fa fa-times"></span>
-                                {% endif %}
+                                <p>{{ article.author.user.username }}</p>
                             </div>
                             <div class="col-xs-4 col-sm-4" style="text-align: left; word-wrap: break-word">
                                 <p onclick="window.open('{{ article.get_article_url }}', '_blank')" style="cursor:pointer" class="text-info">{{ article.title | title }}</p>
