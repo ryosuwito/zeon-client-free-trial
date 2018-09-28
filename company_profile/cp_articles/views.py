@@ -49,7 +49,7 @@ class CPArticle(LoginRequiredMixin, ComponentRenderer, Dispatcher):
         if self.form.is_valid():
             article = self.form.save(commit=False)
             article.site = site
-            article.author = request.user.user_staff
+            article.author = Staff.objects.get(user=request.user)
             article.save()
             self.form.save_m2m()
             if kwargs['action'] != 'preview':
