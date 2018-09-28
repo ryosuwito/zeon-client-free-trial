@@ -58,7 +58,6 @@ class CPArticle(LoginRequiredMixin, ComponentRenderer, Dispatcher):
                     article.save()
             else:
                 referer = request.META['HTTP_REFERER']
-                if request.user.is_superuser:
                 if '/cms/article/edit' in referer:
                     parse_object = urlparse(referer)
                     url_splitted = parse_object.path.split("/")
