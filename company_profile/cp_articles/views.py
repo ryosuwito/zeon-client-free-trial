@@ -9,6 +9,7 @@ from company_profile.cp_articles.models import Category
 from company_profile.cp_user_configs.models import UserConfigs
 from dispatcher.views import ComponentRenderer
 from dispatcher.views import Dispatcher
+from membership.models import Staff
 
 import time
 from urllib.parse import urlparse
@@ -48,6 +49,7 @@ class CPArticle(LoginRequiredMixin, ComponentRenderer, Dispatcher):
         if self.form.is_valid():
             article = self.form.save(commit=False)
             article.site = site
+            article.author = request.user.user_staff
             article.save()
             self.form.save_m2m()
             if kwargs['action'] != 'preview':
@@ -56,6 +58,7 @@ class CPArticle(LoginRequiredMixin, ComponentRenderer, Dispatcher):
                     article.save()
             else:
                 referer = request.META['HTTP_REFERER']
+                if request.user.is_superuser:
                 if '/cms/article/edit' in referer:
                     parse_object = urlparse(referer)
                     url_splitted = parse_object.path.split("/")
