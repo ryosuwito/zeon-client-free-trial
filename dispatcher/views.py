@@ -1,4 +1,5 @@
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views import View
@@ -57,7 +58,8 @@ class Index(Dispatcher):
         })
 
 
-class Blog(Dispatcher):
+class Blog(LoginRequiredMixin, Dispatcher):
+    login_url = '/cms/login/'
     def get(self, request, *args, **kwargs):
         article = ArticleModel.objects.all()
         data = super(Blog, self).get(request, args, kwargs)
@@ -85,7 +87,8 @@ class Blog(Dispatcher):
     def post(self, request, *args, **kwargs):
         pass
 
-class Article(Dispatcher):
+class Article(LoginRequiredMixin, Dispatcher):
+    login_url = '/cms/login/'
     def get(self, request, *args, **kwargs):
         data = super(Article, self).get(request, args, kwargs)
         configs = UserConfigs.objects.get(member = data['member'])
@@ -137,7 +140,8 @@ class Article(Dispatcher):
             'identity': identity,
         })
 
-class Page(Dispatcher):
+class Page(LoginRequiredMixin, Dispatcher):
+    login_url = '/cms/login/'
     def get(self, request, *args, **kwargs):
         data = super(Page, self).get(request, args, kwargs)
         configs = UserConfigs.objects.get(member = data['member'])
