@@ -82,7 +82,7 @@
                                 {% for article in site.article_site.all %}
                                 <p style="margin-top:15px; margin-bottom:2px">Author: {{ article.author.user.username }}<br></p>
                                 <p onclick="window.open('{{ article.get_article_url }}', '_blank')" style="margin: 0; padding: 0" class="btn btn-link text-info">{{ article.title | title | truncatechars:60 }}</p>
-                                {% if request.user.is_superuser %}
+                                {% if request.user == article.author.user %}
                                 <a href='javascript:void(0)' onclick="getNext('{{ article.get_edit_url }}')"class="btn btn-link btn-sm text-info"><span class="fa fa-edit"></span></a>
                                 {% endif %}
                                 {% if request.user.is_superuser %}
