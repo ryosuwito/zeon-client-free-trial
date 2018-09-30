@@ -79,7 +79,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-12" style="text-align: left; padding: 0">
                                 <hr>
-                                {% for article in site.article_site.all | slice:6 %}
+                                {% for article in site.article_site.all %}
                                 <p style="margin-top:15px; margin-bottom:2px">Author: {{ article.author.user.username }}<br></p>
                                 <p onclick="window.open('{{ article.get_article_url }}', '_blank')" style="margin: 0; padding: 0" class="btn btn-link text-info">{{ article.title | title | truncatechars:60 }}</p>
                                 {% if request.user == article.author.user %}
