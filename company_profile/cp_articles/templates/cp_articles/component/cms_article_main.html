@@ -16,7 +16,7 @@
                 <div class="row" style="margin: 0">
                     <div class="col-xs-10 col-sm-10" style="text-align: left">
                         <h3>Articles </h3>
-                        <p>Total Article: {{ data.articles | length }}</p>
+                        <p>Total Article: {{ articles | length }}</p>
                     </div>
                     <div class="col-xs-2 col-sm-2" style="text-align: right; display: flex; flex-direction: column; justify-content: flex-end">
                         <p onclick="getNext('/cms/article/add/')" class="btn btn-primary btn-md"><span class="fa fa-plus"></span> CREATE NEW</p>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <hr>
-                {% for article in data.articles %}
+                {% for article in articles %}
                     {% if article.category.all %}
                         <div class="row" style="margin: 0">
                             <div class="col-xs-2 col-sm-1" style="text-align: center">
