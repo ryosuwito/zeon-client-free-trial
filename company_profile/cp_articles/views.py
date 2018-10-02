@@ -82,9 +82,7 @@ class CPArticle(LoginRequiredMixin, ComponentRenderer, Dispatcher):
 
         token = get_token(request)
         configs = UserConfigs.objects.get(member = member)
-        articles = site.article_site.all()
         return render(request, self.template, {
-                'articles':articles,
                 'form': self.form,
                 'member': member,
                 'data': data,
@@ -126,7 +124,8 @@ class CPArticle(LoginRequiredMixin, ComponentRenderer, Dispatcher):
             self.set_component(kwargs)
         else :
             return HttpResponseRedirect(self.index_url)
-            
+        
+        data['articles'] = ArticleModel.objects.filter(site=site).order_by('-created_date')    
         if method == 'get_component':
             return self.get_component(request, token, data, configs, site, member, form, featured_image)
                             
