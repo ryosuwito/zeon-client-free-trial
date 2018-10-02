@@ -84,6 +84,7 @@ class CPArticle(LoginRequiredMixin, ComponentRenderer, Dispatcher):
         configs = UserConfigs.objects.get(member = member)
         articles = ArticleModel.objects.filter(site=site).order_by('-created_date')
         return render(request, self.template, {
+                'articles':articles,
                 'form': self.form,
                 'member': member,
                 'data': data,
