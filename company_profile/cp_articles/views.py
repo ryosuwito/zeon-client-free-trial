@@ -82,7 +82,7 @@ class CPArticle(LoginRequiredMixin, ComponentRenderer, Dispatcher):
 
         token = get_token(request)
         configs = UserConfigs.objects.get(member = member)
-        articles = ArticleModel.objects.filter(site=site).order_by('-created_date')
+        articles = ArticleModel.objects.filter(site=site)
         return render(request, self.template, {
                 'articles':articles,
                 'form': self.form,
