@@ -1,11 +1,13 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.forms.models import model_to_dict
 from django.urls import reverse
 from django.template.loader import render_to_string
+from django.db.models import Sum
 
 from company_profile.cp_pages.models import PageModel, TempPageModel
 from company_profile.cp_articles.models import Article as ArticleModel
@@ -23,11 +25,25 @@ class Dispatcher(View):
     component = {}
     def get(self, request, *args, **kwargs):
         site = get_current_site(request)
-        try:
-            member = Member.objects.get(site=site)
-        except:
-            member = ""
-        return {'member':member, 'site':site}
+        member = Member.objects.get(site=site)
+        total_article_views = ArticleModel.objects.filter(site=site, is_preview=False).aggregate(Sum('page_view'))['page_view__sum']
+        total_page_views = PageModel.objects.filter(site=site, is_preview=False).aggregate(Sum('page_view'))['page_view__sum']
+        if not total_article_views:
+            total_article_views = 0
+        if not total_page_views:
+            total_page_views = 0
+        total_lifetime_views = total_article_views + total_page_views
+        total_comments = CommentModel.objects.filter(article__site=site).count()
+        total_comments += ReplyModel.objects.filter(comment__article__site=site).count()
+        total_visitors = VisitorModel.objects.filter(site=site).count()
+        return {'member':member, 
+            'site':site,
+            'total_article_views':total_article_views,
+            'total_page_views':total_page_views,
+            'total_lifetime_views':total_lifetime_views,
+            'total_comments':total_comments,
+            'total_visitors':total_visitors
+            }
     def post(self, request, *args, **kwargs):
         pass
     def set_default_configs(configs):
@@ -35,8 +51,6 @@ class Dispatcher(View):
 
 class Index(Dispatcher):
     def get(self, request, *args, **kwargs):
-        if get_current_site(request).domain == 'sidomo.com':
-           return render(request, "zeon_backend/templates/index-3.html")
         data = super(Index, self).get(request, args, kwargs)
         configs, is_created = UserConfigs.objects.get_or_create(member = data['member'])
         if is_created:
@@ -45,6 +59,14 @@ class Index(Dispatcher):
         assets = configs.brand_assets
         scheme = configs.color_scheme
         identity = configs.brand_identity
+        if site.domain == 'sidomo.com':
+           recent_articles = ArticleModel.objects.filter(site=site, is_published=True).order_by('-created_date')[:3]
+           return render(request, 
+                "zeon_backend/templates/index-3.html",
+                {
+                    'recent_article':recent_articles
+                }
+           )
         self.component['base'] = "company_profile/%s/base.html"%(configs.templates.dir_name) 
         self.component['sidebar'] = "company_profile/%s/sidebar.html"%(configs.templates.dir_name) 
         template = "company_profile/%s/index.html"%(configs.templates.dir_name)
@@ -61,7 +83,6 @@ class Index(Dispatcher):
 class Blog(LoginRequiredMixin, Dispatcher):
     login_url = '/cms/login/'
     def get(self, request, *args, **kwargs):
-        article = ArticleModel.objects.all()
         data = super(Blog, self).get(request, args, kwargs)
         configs = UserConfigs.objects.get(member = data['member'])
         site = data['site']
@@ -75,8 +96,38 @@ class Blog(LoginRequiredMixin, Dispatcher):
         assets = configs.brand_assets
         scheme = configs.color_scheme
         identity = configs.brand_identity
+        article_list = ArticleModel.objects.filter(site=site, is_published=True).order_by('-created_date')
+
+        max_page = 4
+        min_page = 0
+        articles = ''
+        if article_list and len(article_list) > 6:
+            is_paginated = True
+            try:
+                paginator = Paginator(article_list,6)
+                page = request.GET.get('page', 1)
+                try:
+                    articles = paginator.page(page)
+                except PageNotAnInteger:
+                    articles = paginator.page(1)
+                except EmptyPage:
+                    articles = paginator.page(paginator.num_pages)
+
+                max_page = articles.number + 4
+                min_page = articles.number - 4
+            except:
+                pass
+        else:
+            is_paginated = False
+            articles = article_list
+                
+        recent_articles = articles[:3]
         return render(request, template, {
-            'article': article,
+            'articles': articles,
+            'max_page':max_page,
+            'min_page':min_page,
+            'is_paginated' : is_paginated,
+            'recent_articles': recent_articles, 
             'component': self.component,
             'configs':configs,
             'site':site,
@@ -111,11 +162,23 @@ class Article(LoginRequiredMixin, Dispatcher):
         reply_form = AddReplyForm()
         comment = Comment()
         comment_and_reply = comment.get_comment_and_reply(article)
+        article.page_view += 1
+        article.save()
+        recent_articles = ArticleModel.objects.filter(site=site, is_published=True).order_by('-created_date')[:3]
+
+        msg = request.GET.get('msg', 'none')
+
+        if msg == 'add':
+            message = 'Komentar Anda akan tampil setelah disetujui Admin'
+        else:
+            message = ''
 
         if site.domain == 'sidomo.com':
             template = "zeon_backend/templates/blog-post.html"
             return render(request, template, 
                 {'article': article, 
+                'message': message,
+                'recent_articles': recent_articles, 
                 'comments':comment_and_reply,
                 'visitor_form': visitor_form,
                 'comment_form': comment_form,
@@ -129,6 +192,8 @@ class Article(LoginRequiredMixin, Dispatcher):
         template = "company_profile/%s/article-detail.html"%(configs.templates.dir_name)
         return render(request, template, {
             'article': article, 
+            'message': message,
+            'recent_articles': recent_articles, 
             'comments':comment_and_reply,
             'visitor_form': visitor_form,
             'comment_form': comment_form,
@@ -147,16 +212,52 @@ class Page(LoginRequiredMixin, Dispatcher):
         configs = UserConfigs.objects.get(member = data['member'])
         site = data['site']
         if site.domain == 'sidomo.com':
-            if kwargs['page_slug'] == 'contact':
+            if kwargs['page_slug'] == 'hubungi':
                 return render(request, "zeon_backend/templates/contact.html")
-            elif kwargs['page_slug'] == 'about':
+            elif kwargs['page_slug'] == 'profil':
                 return render(request, "zeon_backend/templates/about.html")
-            elif kwargs['page_slug'] == 'services':
-                return render(request, "zeon_backend/templates/services.html")
-            elif kwargs['page_slug'] == 'pricing':
+                
+            elif kwargs['page_slug'] == 'marketing-plan':
+                return render(request, "zeon_backend/templates/marketing-plan.html")
+            elif kwargs['page_slug'] == 'partner':
+                return render(request, "zeon_backend/templates/partner.html")
+
+            elif kwargs['page_slug'] == 'website-builder':
+                return render(request, "zeon_backend/templates/website-builder.html")
+            elif kwargs['page_slug'] == 'android-builder':
+                return render(request, "zeon_backend/templates/android-builder.html")
+            elif kwargs['page_slug'] == 'ios-builder':
+                return render(request, "zeon_backend/templates/ios-builder.html")
+
+            elif kwargs['page_slug'] == 'harga':
                 return render(request, "zeon_backend/templates/pricing-tables.html")
+
+            elif kwargs['page_slug'] == 'galeri-event':
+                return render(request, "zeon_backend/templates/coming-soon.html")
+            elif kwargs['page_slug'] == 'testimoni':
+                return render(request, "zeon_backend/templates/coming-soon.html")
+            elif kwargs['page_slug'] == 'kebijakan-privasi':
+                return render(request, "zeon_backend/templates/coming-soon.html")
+            elif kwargs['page_slug'] == 'syarat-ketentuan':
+                return render(request, "zeon_backend/templates/coming-soon.html")
+
+            elif kwargs['page_slug'] == 'faq':
+                return render(request, "zeon_backend/templates/coming-soon.html")
+            elif kwargs['page_slug'] == 'stockist-cabang':
+                return render(request, "zeon_backend/templates/coming-soon.html")
+            elif kwargs['page_slug'] == 'metode-pembayaran':
+                return render(request, "zeon_backend/templates/coming-soon.html")
+            elif kwargs['page_slug'] == 'karir':
+                return render(request, "zeon_backend/templates/coming-soon.html")
+            elif kwargs['page_slug'] == 'developer-club':
+                return render(request, "zeon_backend/templates/coming-soon.html")
+            elif kwargs['page_slug'] == 'kritik-saran':
+                return render(request, "zeon_backend/templates/coming-soon.html")
+            elif kwargs['page_slug'] == 'report':
+                return render(request, "zeon_backend/templates/coming-soon.html")
             else:
-                return render(request, "zeon_backend/templates/index-3.html")
+                return render(request, "zeon_backend/templates/404.html")
+
         assets = configs.brand_assets
         scheme = configs.color_scheme
         identity = configs.brand_identity
@@ -167,6 +268,8 @@ class Page(LoginRequiredMixin, Dispatcher):
         else:
             page = PageModel.objects.get(slug=kwargs['page_slug'])
 
+        page.page_view += 1
+        page.save()
         template = "company_profile/%s/page.html"%(configs.templates.dir_name)
         return render(request, template, {
             'component': self.component,
@@ -221,24 +324,30 @@ class Comment(Dispatcher):
         comment_form = AddCommentForm(request.POST)
         if visitor_form.is_valid() and comment_form.is_valid():
             visitor_form_data = visitor_form.cleaned_data
-            visitor = VisitorModel.objects.create(email=visitor_form_data['email'],
-                    name=visitor_form_data['name'])
+            visitor = VisitorModel.objects.get_or_create(email=visitor_form_data['email'],
+                    site=site,
+                    name=visitor_form_data['name'])[0]
             comment_form_data = comment_form.cleaned_data
             comment = CommentModel.objects.create(visitor=visitor,
+                    site=site,
                     content=comment_form_data['content'],
                     article=article)
 
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER')+'?msg=add')
     
 
     def get_comment_and_reply(self, article):
-        return [self.format_comment(comment) for comment in article.article_comment.all()]
+        comments = CommentModel.objects.filter(
+                    is_approved=True,
+                    article=article)
+        return [self.format_comment(comment) for comment in comments]
 
     def format_comment(self, comment):
         return {
             'created_date' : comment.created_date.strftime("%d/%B/%Y %H:%m"),
             'visitor': comment.visitor.name, 
             'content': comment.content,
+            'is_approved': comment.is_approved,
             'reply' : self.format_replies(comment),
         }
         
@@ -279,4 +388,63 @@ class ComponentRenderer:
         elif kwargs['action'] == 'delete':
             self.component['main'] = self.delete_main
             self.component['local_script'] = self.delete_local_script
-       
+
+class ArticleList(Dispatcher):
+    def get(self, request, *args, **kwargs):
+        data = super(ArticleList, self).get(request, args, kwargs)
+        configs = UserConfigs.objects.get(member = data['member'])
+        site = data['site']
+        try:
+            method = kwargs['method']
+        except:
+            method = ''
+        
+        if method == 'add':
+            return HttpResponse('Wrong Method', status=403)
+        try:
+            articles = ArticleModel.objects.filter(site=site)
+        except:
+            return HttpResponse('Article Not Found', status=404)
+
+        if articles:
+            return JsonResponse([{
+                "article_title":article.title, 
+                "article_url":article.get_article_url(),
+                "article_is_published":article.is_published,
+                "article_featured_image":article.get_image_url()} for article in articles], safe=False)
+
+class Reply(Dispatcher):
+    def get(self, request, *args, **kwargs):
+        return HttpResponse('Not Found' , status=404)
+    
+    
+    def post(self, request, *args, **kwargs):
+        data = super(Reply, self).get(request, args, kwargs)
+        configs = UserConfigs.objects.get(member = data['member'])
+        site = data['site']
+        try:
+            method = kwargs['method']
+            article = ArticleModel.objects.get(site=site, slug=kwargs['article_slug'])
+        except:
+            method = ''
+            article = ''
+
+        if method != 'add' or not article:
+            return HttpResponse('Wrong Method', status=403)
+
+        visitor_form = AddVisitorForm(request.POST)
+        reply_form = AddReplyForm(request.POST)
+        if visitor_form.is_valid() and reply_form.is_valid():
+            visitor_form_data = visitor_form.cleaned_data
+            visitor = VisitorModel.objects.get_or_create(email=visitor_form_data['email'],
+                    name=visitor_form_data['name'])[0]
+            try:
+                comment = CommentModel.objects.get(pk=kwargs['comment_pk'])
+            except:
+                return HttpResponse('Not Found', status=404)
+            
+            reply_form_data = reply_form.cleaned_data
+            reply = ReplyModel.objects.create(visitor=visitor,
+                    content=reply_form_data['content'], comment=comment)
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

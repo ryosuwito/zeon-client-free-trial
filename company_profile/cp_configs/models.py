@@ -3,8 +3,18 @@ from django.db import models
 class Template(models.Model):
     name = models.CharField(max_length=150, blank=True)
     dir_name = models.CharField(max_length=150, blank=True)
+    sample_image_1 = models.ImageField(upload_to = 'cp/sample_image', blank=True, null=True)
+    sample_image_2 = models.ImageField(upload_to = 'cp/sample_image', blank=True, null=True)
+    sample_image_3 = models.ImageField(upload_to = 'cp/sample_image', blank=True, null=True)
     def __str__(self):
         return self.name.title()
+
+    def get_sample_image_1_url(self):
+        return ("/media/%s"%self.sample_image_1)
+    def get_sample_image_2_url(self):
+        return ("/media/%s"%self.sample_image_2)
+    def get_sample_image_3_url(self):
+        return ("/media/%s"%self.sample_image_3)
 
     class Meta:
         verbose_name_plural = "Templates"
@@ -21,6 +31,7 @@ class ColorScheme(models.Model):
         verbose_name_plural = "Color Schemes"
 
 class BrandAsset(models.Model):
+    name = models.CharField(max_length=150, blank=True)
     favicon = models.ImageField(upload_to = 'cp/favicon', blank=True, null=True)
     hero_image_1 = models.ImageField(upload_to = 'cp/hero_image', blank=True, null=True)
     hero_image_2 = models.ImageField(upload_to = 'cp/hero_image', blank=True, null=True)
@@ -31,6 +42,9 @@ class BrandAsset(models.Model):
     extra_image_1 = models.ImageField(upload_to = 'cp/extra_image', blank=True, null=True)
     extra_image_2 = models.ImageField(upload_to = 'cp/extra_image', blank=True, null=True)
     extra_image_3 = models.ImageField(upload_to = 'cp/extra_image', blank=True, null=True)
+    def __str__(self):
+        return self.name.title()
+
     class Meta:
         verbose_name_plural = "Brand Assets"
 
@@ -56,6 +70,7 @@ class BrandAsset(models.Model):
         return ("/media/%s"%self.brand_logo)
         
 class BrandIdentity(models.Model):
+    name = models.CharField(max_length=150, blank=True)
     company_name = models.CharField(max_length=250, blank=True)
     company_tagline = models.CharField(max_length=350, blank=True)
     company_address = models.CharField(max_length=450, blank=True)
@@ -65,5 +80,8 @@ class BrandIdentity(models.Model):
     company_facebook = models.CharField(max_length=150, blank=True)
     company_instagram = models.CharField(max_length=150, blank=True)
     company_whatsapp = models.CharField(max_length=35, blank=True)
+    def __str__(self):
+        return self.name.title()
+        
     class Meta:
         verbose_name_plural = "Brand Identities"

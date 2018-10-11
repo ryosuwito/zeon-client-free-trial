@@ -1,9 +1,11 @@
 from django.contrib.sites.models import Site
 from django.db import models
+from django.db.models.signals import post_save
 from django.template.defaultfilters import slugify
 from django.urls import reverse
-
+from django.dispatch import receiver
 from django.utils.crypto import get_random_string
+
 from taggit_selectize.managers import TaggableManager
 from ckeditor.fields import RichTextField
 
@@ -57,20 +59,14 @@ class Article(models.Model):
     published_date = models.DateTimeField(db_index=True,null=True, blank=True)
     is_published = models.BooleanField(default=True, db_index=True)
     is_featured = models.BooleanField(default=False, db_index=True)
+    is_preview = models.BooleanField(default=False, db_index=True)
     featured_image = models.ImageField(upload_to = 'cp/user_uploads/featured_images/', null=True, blank=True)
     page_view = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title.title()
 
-
-    def save(self, *args, **kwargs):
-        slug = slugify(self.title.lower())
-        while Article.objects.filter(slug = slug).exists():
-            slug = slugify("%s-%s"%(self.title.lower(),get_random_string(5, allowed_chars='12345677890')))
-
-        self.slug = slug
-        super(Article, self).save(*args, **kwargs)
+            
 
     def get_all_tags(self):
         return self.tags.all()
@@ -90,6 +86,17 @@ class Article(models.Model):
     def get_class_name(self):
         return self.class_name
 
+
+@receiver(post_save, sender=Article)
+def create_article(sender, instance, created, **kwargs):
+    if created:
+        slug = slugify(instance.title.lower())
+        while Article.objects.filter(slug = slug).exists():
+            slug = slugify("%s-%s"%(instance.title.lower(),get_random_string(5, allowed_chars='12345677890')))
+
+        instance.slug = slug
+        instance.save()
+
 class TempArticle(Article):
     def save(self, *args, **kwargs):
         temps = TempArticle.objects.all().exclude(pk=self.pk)
@@ -97,5 +104,17 @@ class TempArticle(Article):
             for temp in temps:
                 temp.delete()
         self.is_published = False
+        self.is_preview = True
         super(TempArticle, self).save(*args, **kwargs)
     
+
+
+@receiver(post_save, sender=TempArticle)
+def create_temp_article(sender, instance, created, **kwargs):
+    if created:
+        slug = slugify(instance.title.lower())
+        while TempArticle.objects.filter(slug = slug).exists():
+            slug = slugify("%s-%s"%(instance.title.lower(),get_random_string(5, allowed_chars='12345677890')))
+
+        instance.slug = slug
+        instance.save()

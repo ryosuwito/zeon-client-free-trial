@@ -35,12 +35,14 @@ class CPArticle(LoginRequiredMixin, ComponentRenderer, Dispatcher):
         if  kwargs['action'] == 'edit':
             article = ArticleModel.objects.get(pk=kwargs['pk'])
             self.form = ArticleAddForm(request.POST, request.FILES, instance=article)
+            """
             if self.form.is_valid():
                 article = self.form.save()
                 if not article.category.all() :
                     article.category.add(Category.objects.get_or_create(site=site, title="post")[0])
                     article.save()
                 return HttpResponseRedirect(self.index_url)
+            """
         elif  kwargs['action'] == 'preview':
             self.form = ArticlePreviewForm(request.POST, request.FILES)
         else:
@@ -80,6 +82,7 @@ class CPArticle(LoginRequiredMixin, ComponentRenderer, Dispatcher):
 
             return HttpResponseRedirect(self.index_url)
 
+        self.form.fields["category"].queryset = Category.objects.filter(site=site)
         token = get_token(request)
         configs = UserConfigs.objects.get(member = member)
         return render(request, self.template, {
@@ -126,9 +129,12 @@ class CPArticle(LoginRequiredMixin, ComponentRenderer, Dispatcher):
             return HttpResponseRedirect(self.index_url)
         
         data['articles'] = ArticleModel.objects.filter(site=site).order_by('-created_date')    
+
+        form.fields["category"].queryset = Category.objects.filter(site=site)
+
         if method == 'get_component':
             return self.get_component(request, token, data, configs, site, member, form, featured_image)
-                            
+
         return render(request, self.template, {
                 'form': form,
                 'member': member,
@@ -140,8 +146,8 @@ class CPArticle(LoginRequiredMixin, ComponentRenderer, Dispatcher):
                 'featured_image' : featured_image,
             }
         )
-   
-        
+
+
 class CPCategory(LoginRequiredMixin, ComponentRenderer, Dispatcher):
     login_url = '/cms/login/'
     template = "cp_admin/index.html"
@@ -176,7 +182,7 @@ class CPCategory(LoginRequiredMixin, ComponentRenderer, Dispatcher):
             category.save()
 
             return HttpResponseRedirect(self.index_url)
-            
+
         token = get_token(request)
         configs = UserConfigs.objects.get(member = member)
         return render(request, self.template, {
@@ -239,7 +245,7 @@ class CPCategory(LoginRequiredMixin, ComponentRenderer, Dispatcher):
 
         if method == 'get_component':
             return self.get_component(request, token, data, configs, site, member, form, featured_image)
-                                     
+
         return render(request, self.template, {
                 'form': form,
                 'featured_image': featured_image,
@@ -251,3 +257,4 @@ class CPCategory(LoginRequiredMixin, ComponentRenderer, Dispatcher):
                 'component':self.component,
             }
         )
+

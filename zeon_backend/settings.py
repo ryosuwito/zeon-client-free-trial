@@ -28,6 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['206.189.83.32',
                 'blog.indogaming.shop',
                 '.co.id',
+		'us',
+                '.id',
+                '.club',
                 '.com',
                 '.biz',
                 '.net',
@@ -97,6 +100,7 @@ WSGI_APPLICATION = 'zeon_backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+
 """
 DATABASES = {
     'default': {
@@ -153,7 +157,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = '/mnt/volume/blog.indogaming/static/'
+STATIC_ROOT = '/mnt/volume/gaminghub/static/'
 
 MEDIA_ROOT =  '/mnt/volume/blog.indogaming/media/'
 MEDIA_URL = '/media/'

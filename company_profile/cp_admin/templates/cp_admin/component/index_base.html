@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/z.png">
     <title>{{ site }}</title>
     <!-- chartist CSS -->
     <link href="/static/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
@@ -40,10 +40,10 @@
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-    <div class="preloader" style="background: #092133">
+    <div class="preloader" style="background:#1c1d1c">
 
-        <div style="widows: 100%; display: flex; justify-content: center;">
-            <img src="/static/images/zeon-gear-white.svg" width="140px" height="auto"/>
+        <div style="width: 100%; display: flex; justify-content: center;align-items:space-around; padding-top:20%">
+            <img src="/static/images/z.png" width="auto" height="180px" style="margin:auto">
         </div>
     </div>
     <!-- ============================================================== -->
@@ -55,10 +55,10 @@
         <!-- ============================================================== -->
         <header class="topbar">
             <nav class="navbar top-navbar navbar-expand-md navbar-dark">
-                <div class="navbar-header" style="background: #07131d !important">
+                <div class="navbar-header" style="background: #1c1d1c !important;">
                     <!-- This is for the sidebar toggle which is visible on mobile only -->
                     <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
-                    <!-- ============================================================== -->
+                    <!-- =============================================================  = -->
                     <!-- Logo -->
                     <!-- ============================================================== -->
                     <a class="navbar-brand" href="{% url 'cms:index' %}">
@@ -66,12 +66,12 @@
                         <b class="logo-icon">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="/static/images/zeon-gear-white.svg" width="40px" height="auto"/>
+                            <img src="/static/images/z.png" width="40px" height="auto"/>
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span class="logo-text">
-                             <h5 style="color:#fff">ZEON CMS</h5>
+                             <h5 style="color:#fff;padding-top: 18px;">Zuperion CMS</h5>
                         </span>
                     </a>
                     <!-- ============================================================== -->
@@ -85,7 +85,7 @@
                 <!-- ============================================================== -->
                 <!-- End Logo -->
                 <!-- ============================================================== -->
-                <div class="navbar-collapse collapse" id="navbarSupportedContent" style="background: #e2e2e2; box-shadow: 0px 1px 5px #aaa">
+                <div class="navbar-collapse collapse" id="navbarSupportedContent" style="background: #d4d4d4;box-shadow: 0px 1px 5px #aaa;">
                     <!-- ============================================================== -->
                     <!-- toggle and nav items -->
                     <!-- ============================================================== -->
@@ -95,6 +95,8 @@
                         <!-- ============================================================== -->
                         <!-- mega menu -->
                         <!-- ============================================================== -->
+
+                        {% comment %}
                         <li class="nav-item dropdown mega-dropdown"><a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="d-none d-md-block">Information <i class="fa fa-angle-down"></i></span>
                              <span class="d-block d-md-none"><i class="mdi mdi-dialpad font-24"></i></span>
@@ -197,6 +199,7 @@
                                 </div>
                             </div>
                         </li>
+                        {% endcomment %}
                         <!-- ============================================================== -->
                         <!-- End mega menu -->
                         <!-- ============================================================== -->
@@ -218,15 +221,18 @@
                         <!-- ============================================================== -->
                         <!-- Search -->
                         <!-- ============================================================== -->
+                        {% comment %}
                         <li class="nav-item search-box"> <a class="nav-link waves-effect waves-dark" href="javascript:void(0)">Search <i class="ti-search"></i></a>
                             <form class="app-search position-absolute">
                                 <input type="text" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>
                             </form>
                         </li>
+                        {% endcomment %}
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Right side toggle and nav items -->
                     <!-- ============================================================== -->
+                    {% comment %}
                     <ul class="navbar-nav float-right">
                         {% if request.user.is_superuser %}
                         <!-- ============================================================== -->
@@ -297,7 +303,7 @@
                                             <h4 class="m-b-0 m-t-5">5 New</h4>
                                             <span class="font-light">Messages</span>
                                         </div>
-                                    </li>#07131d !important
+                                    </li>
                                     <li>
                                         <div class="message-center message-body">
                                             <!-- Message -->
@@ -358,7 +364,7 @@
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>
                                 <div class="dropdown-divider"></div>
                                 {% endif %}
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="getNext('/cms/logout/')"><i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>
+                                <a class="dropdown-item" href="javascript:void(0)" onclick="window.open('/cms/logout/','_self')"><i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>
                                 <div class="dropdown-divider"></div>
 
                                 {% if request.user.is_superuser %}
@@ -370,6 +376,7 @@
                         <!-- User profile and search -->
                         <!-- ============================================================== -->
                     </ul>
+                    {% endcomment %}
                 </div>
             </nav>
         </header>
@@ -381,10 +388,10 @@
         <!-- ============================================================== -->
         <aside class="left-sidebar">
             <!-- Sidebar scroll-->
-            <div class="scroll-sidebar" style="background: #092133 !important">
+            <div class="scroll-sidebar" style="background: #2b2d2b !important;">
                 <!-- Sidebar navigation-->
-                <nav class="sidebar-nav" style="background: #092133 !important">
-                    <ul id="sidebarnav" style="background: #092133 !important">
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav" style="background: #2b2d2b !important;">
                         <!-- User Profile-->
                         <li>
                             <!-- User Profile-->
@@ -401,9 +408,9 @@
                                         <a class="dropdown-item" href="javascript:void(0)" onclick="getNext('/cms/page/add/')"><i class="fa fa-clone m-r-5 m-l-5"></i> Page</a>
                                         <a class="dropdown-item" href="javascript:void(0)" onclick="getNext('/cms/category/add/')"><i class="fa fa-object-ungroup m-r-5 m-l-5"></i> Category</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-edit m-r-5 m-l-5"></i> Change Template</a>
-                                        <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-edit m-r-5 m-l-5"></i> Change Identity</a>
-                                        <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-edit m-r-5 m-l-5"></i> Change Brand Assets</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="getNext('/cms/template/edit/{{ configs.templates.pk }}/')"><i class="fa fa-edit m-r-5 m-l-5"></i> Change Template</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="getNext('/cms/identity/edit/{{ configs.brand_identity.pk }}/')"><i class="fa fa-edit m-r-5 m-l-5"></i> Change Identity</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="getNext('/cms/asset/edit/{{ configs.brand_assets.pk }}/')"><i class="fa fa-edit m-r-5 m-l-5"></i> Change Brand Assets</a>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -411,28 +418,31 @@
                             <!-- End User Profile-->
                         </li>
                         {% if request.user.is_superuser %}
-                        <li class="nav-small-cap" style="background: #092133"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">Personal Info</span></li>
+                        {% comment %}
+                        {% if site.domain != "sidomo.com" %}
+                        <li class="nav-small-cap" style="background: #2b2d2b"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">Personal Info</span></li>
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                             <i class="fa fa-user-circle"></i><span class="hide-menu">Profile </span></a>
-                            <ul style="background: #114065" aria-expanded="false" class="collapse  first-level">
+                            <ul style="background: #1c1d1c" aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item"><a href="layout-inner-fixed-right-sidebar.html" class="sidebar-link"><i class="mdi mdi-adjust"></i><span class="hide-menu"></i><span class="hide-menu"> Overview </span></a></li>
                                 <li class="sidebar-item"><a href="layout-inner-fixed-left-sidebar.html" class="sidebar-link"><i class="fa fa-edit"></i><span class="hide-menu"></i><span class="hide-menu"> Edit Profile </span></a></li>
                             </ul>
                         </li>
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                             <i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Membership </span></a>
-                            <ul style="background: #114065" aria-expanded="false" class="collapse  first-level">
+                            <ul style="background: #1c1d1c" aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item"><a href="layout-inner-fixed-right-sidebar.html" class="sidebar-link"><i class="mdi mdi-adjust"></i><span class="hide-menu"></i><span class="hide-menu"> Overview </span></a></li>
                                 <li class="sidebar-item"><a href="layout-inner-fixed-left-sidebar.html" class="sidebar-link"><i class="fa fa-edit"></i><span class="hide-menu"></i><span class="hide-menu"> Upgrade Membership </span></a></li>
                             </ul>
                         </li>
                         {% endif %}
-                        <li class="nav-small-cap" style="background: #092133"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">My App</span></li>
-
+                        {% endcomment %}
+                        <li class="nav-small-cap" style="background: #2b2d2b"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">My App</span></li>
+			{% endif %}
                         {% if request.user.is_superuser %}
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                             <i class="mdi mdi-file"></i><span class="hide-menu">Pages </span></a>
-                            <ul style="background: #114065" aria-expanded="false" class="collapse  first-level">
+                            <ul style="background: #1c1d1c" aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item"><a href='javascript:void(0)' onclick="getNext('/cms/page/')" class="sidebar-link"><i class="mdi mdi-adjust"></i><span class="hide-menu"></i><span class="hide-menu"> Overview </span></a></li>
                                 <li class="sidebar-item"><a href='javascript:void(0)' onclick="getNext('/cms/page/add/')" class="sidebar-link"><i class="fa fa-plus-square"></i><span class="hide-menu"></i><span class="hide-menu"> Add New Page </span></a></li>
                             </ul>
@@ -440,23 +450,31 @@
                         {% endif %}
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                             <i class="fa fa-newspaper"></i><span class="hide-menu">Articles </span></a>
-                            <ul style="background: #114065" aria-expanded="false" class="collapse  first-level">
+                            <ul style="background: #1c1d1c" aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item"><a href='javascript:void(0)' onclick="getNext('/cms/article/')" class="sidebar-link"><i class="fa fa-newspaper"></i><span class="hide-menu"></i><span class="hide-menu"> Overview </span></a></li>
                                 <li class="sidebar-item"><a href='javascript:void(0)' onclick="getNext('/cms/article/add/')" class="sidebar-link"><i class="fa fa-plus-square"></i><span class="hide-menu"></i><span class="hide-menu"> Add New Article </span></a></li>
                             </ul>
                         </li>
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                             <i class="fa fa-object-ungroup"></i><span class="hide-menu">Categories </span></a>
-                            <ul style="background: #114065" aria-expanded="false" class="collapse  first-level">
+                            <ul style="background: #1c1d1c" aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item"><a href='javascript:void(0)' onclick="getNext('/cms/category/')" class="sidebar-link"><i class="fa fa-object-ungroup"></i><span class="hide-menu"></i><span class="hide-menu"> Overview </span></a></li>
                                 <li class="sidebar-item"><a href='javascript:void(0)' onclick="getNext('/cms/category/add/')" class="sidebar-link"><i class="fa fa-plus-square"></i><span class="hide-menu"></i><span class="hide-menu"> Add New Category </span></a></li>
                             </ul>
                         </li>
                         {% if request.user.is_superuser %}
-                        <li class="nav-small-cap" style="background: #092133"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">App Config</span></li>
+                        <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                            <i class="fa fa-comment"></i><span class="hide-menu">Comments </span></a>
+                            <ul style="background: #1c1d1c" aria-expanded="false" class="collapse  first-level">
+                                <li class="sidebar-item"><a href='javascript:void(0)' onclick="getNext('/cms/comment/')" class="sidebar-link"><i class="mdi mdi-adjust"></i><span class="hide-menu"></i><span class="hide-menu"> View All </span></a></li>
+                            </ul>
+                        </li>
+			{% endif %}
+                        {% if site.domain != "sidomo.com" %}
+                        <li class="nav-small-cap" style="background: #2b2d2b"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">App Config</span></li>
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                             <i class="fa fa-file-image"></i><span class="hide-menu">Template </span></a>
-                            <ul style="background: #114065" aria-expanded="false" class="collapse  first-level">
+                            <ul style="background: #1c1d1c" aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item"><a href='javascript:void(0)' onclick="getNext('/cms/template/')" class="sidebar-link"><i class="mdi mdi-adjust"></i><span class="hide-menu"></i><span class="hide-menu"> Overview </span></a></li>
                                 <li class="sidebar-item"><a href='javascript:void(0)' onclick="getNext('/cms/template/edit/{{ configs.templates.pk }}/')" class="sidebar-link"><i class="fa fa-edit"></i><span class="hide-menu"></i><span class="hide-menu"> Choose Template </span></a></li>
                                 <li class="sidebar-item"><a href='javascript:void(0)' onclick="getNext('/cms/color/edit/{{ configs.color_scheme.pk }}/')" class="sidebar-link"><i class="fa fa-edit"></i><span class="hide-menu"></i><span class="hide-menu"> Choose Color Scheme </span></a></li>
@@ -464,14 +482,14 @@
                         </li>
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                             <i class="fa fa-cube"></i><span class="hide-menu">Brand Assets </span></a>
-                            <ul style="background: #114065" aria-expanded="false" class="collapse  first-level">
+                            <ul style="background: #1c1d1c" aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item"><a href='javascript:void(0)' onclick="getNext('/cms/asset/')" class="sidebar-link"><i class="mdi mdi-adjust"></i><span class="hide-menu"></i><span class="hide-menu"> Overview </span></a></li>
                                 <li class="sidebar-item"><a href='javascript:void(0)' onclick="getNext('/cms/asset/edit/{{ configs.brand_assets.pk }}/')" class="sidebar-link"><i class="fa fa-edit"></i><span class="hide-menu"></i><span class="hide-menu"> Edit Assets </span></a></li>
                             </ul>
                         </li>
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                             <i class="mdi mdi-account-box"></i><span class="hide-menu">Brand Identity </span></a>
-                            <ul style="background: #114065" aria-expanded="false" class="collapse  first-level">
+                            <ul style="background: #1c1d1c" aria-expanded="false" class="collapse  first-level">
                                     <li class="sidebar-item"><a href='javascript:void(0)' onclick="getNext('/cms/identity/')" class="sidebar-link"><i class="mdi mdi-adjust"></i><span class="hide-menu"></i><span class="hide-menu"> Overview </span></a></li>
                                 <li class="sidebar-item"><a href='javascript:void(0)' onclick="getNext('/cms/identity/edit/{{ configs.brand_identity.pk }}/')" class="sidebar-link"><i class="fa fa-edit"></i><span class="hide-menu"></i><span class="hide-menu"> Edit Identity </span></a></li>
                             </ul>
@@ -479,15 +497,15 @@
                         {% comment %}
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                             <i class="fa fa-globe"></i><span class="hide-menu">Site Domain </span></a>
-                            <ul style="background: #114065" aria-expanded="false" class="collapse  first-level">
+                            <ul style="background: #1c1d1c" aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item"><a href="layout-inner-fixed-right-sidebar.html" class="sidebar-link"><i class="mdi mdi-adjust"></i><span class="hide-menu"></i><span class="hide-menu"> Overview </span></a></li>
                                 <li class="sidebar-item"><a href="layout-inner-fixed-left-sidebar.html" class="sidebar-link"><i class="fa fa-edit"></i><span class="hide-menu"></i><span class="hide-menu"> Edit Assets </span></a></li>
                             </ul>
                         </li>
                         {% endcomment %}
-                        <li class="nav-small-cap" style="background: #092133"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">Extra</span></li>
+                        <li class="nav-small-cap" style="background: #2b2d2b"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">Extra</span></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="/static/docs/documentation.html" aria-expanded="false"><i class="mdi mdi-content-paste"></i><span class="hide-menu">Documentation</span></a></li>
-                        <li class="sidebar-item"> <a href='javascript:void(0)' onclick="window.open('/cms/logout/')" class="sidebar-link waves-effect waves-dark sidebar-link"><i class="mdi mdi-directions"></i><span class="hide-menu">Log Out</span></a></li>
+                        <li class="sidebar-item"> <a href='javascript:void(0)' onclick="window.open('/cms/logout/', '_self')" class="sidebar-link waves-effect waves-dark sidebar-link"><i class="mdi mdi-directions"></i><span class="hide-menu">Log Out</span></a></li>
 
                         {% endif %}
                     </ul>
@@ -502,7 +520,7 @@
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
-        <div class="page-wrapper">
+        <div class="page-wrapper" style="background:#e4e4e4">
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
@@ -518,7 +536,7 @@
                     <div class="col-7 align-self-center">
                         <div class="d-flex no-block justify-content-end align-items-center">
                             <div class=""><small>Lifetime Pageviews</small>
-                                <h4 class="text-info m-b-0 font-medium">580,256</h4></div>
+                                <h4 class="text-info m-b-0 font-medium">{{data.total_lifetime_views}}</h4></div>
                         </div>
                     </div>
                 </div>
@@ -543,7 +561,7 @@
             <!-- footer -->
             <!-- ============================================================== -->
             <footer class="footer text-center">
-                    Copyright &copy; ZEON WebBuilder
+                    Copyright &copy; Zuperion WebBuilder
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
