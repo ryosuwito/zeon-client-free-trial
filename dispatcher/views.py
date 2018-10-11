@@ -66,6 +66,7 @@ class Index(Dispatcher):
                     'recent_article':recent_articles
                 }
            )
+        else:
             self.component['base'] = "company_profile/%s/base.html"%(configs.templates.dir_name) 
             self.component['sidebar'] = "company_profile/%s/sidebar.html"%(configs.templates.dir_name) 
             template = "company_profile/%s/blog-index.html"%(configs.templates.dir_name)
