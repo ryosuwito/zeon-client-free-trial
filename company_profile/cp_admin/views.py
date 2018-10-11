@@ -10,7 +10,7 @@ from django.template.loader import render_to_string
 from django.utils.crypto import get_random_string
 
 import time
-from dispatcher.views import Dispatcher
+from company_profile.views import Dispatcher
 from company_profile.cp_user_configs.models import UserConfigs, UserFormTemplate
 from company_profile.cp_articles.models import Article as ArticleModel
 from company_profile.cp_articles.models import Category as CategoryModel

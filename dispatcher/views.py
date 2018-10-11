@@ -62,13 +62,13 @@ class Index(Dispatcher):
            recent_articles = ArticleModel.objects.filter(site=site, is_published=True).order_by('-created_date')[:3]
            return render(request, 
                 "zeon_backend/templates/index-3.html",
-                {
-                    'recent_article':recent_articles
-                }
-           )
-        self.component['base'] = "company_profile/%s/base.html"%(configs.templates.dir_name) 
-        self.component['sidebar'] = "company_profile/%s/sidebar.html"%(configs.templates.dir_name) 
-        template = "company_profile/%s/index.html"%(configs.templates.dir_name)
+                {eskeiadmin
+                    'recent_article':recent_articleseskeiadmin
+                }eskeiadmin
+           )eskeiadmin
+        self.component['base'] = "company_profile/%s/base.html"%(confeskeiadminigs.templates.dir_name) 
+        self.component['sidebar'] = "company_profile/%s/sidebar.html"eskeiadmin%(configs.templates.dir_name) 
+        template = "company_profile/%s/index.html"%(configs.templateseskeiadmin.dir_name)
         return render(request, template, {
             'component': self.component,
             'configs':configs,
