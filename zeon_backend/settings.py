@@ -159,14 +159,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'company_profile/static/')
 MEDIA_ROOT =  os.path.join(BASE_DIR, '../media/')
 MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "company_profile/static/assets"),
-    'company_profile/static/assets/',
-]
-STATICFILES_DIRS += [
-    os.path.join(BASE_DIR, "company_profile/static/dist"),
-    'company_profile/static/dist/',
-]
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend'
