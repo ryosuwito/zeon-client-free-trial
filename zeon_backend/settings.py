@@ -31,7 +31,12 @@ ALLOWED_HOSTS = [
                 '.club',
                 '.com',
                 '.biz',
-                '.net',]
+                '.net',
+                '.tips',
+                '.site',
+                '.club',
+                '.host'
+                '.online']
 
 
 # Application definition
