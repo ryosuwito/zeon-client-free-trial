@@ -26,7 +26,6 @@ SECRET_KEY = 'dli3^=1mdk6vj-d+k*e8=49o^g35gqhc7_3)l4m^++wa^h)b8j'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-                'trials.sidomo.com',
                 '.co.id',
                 '.id',
                 '.club',
