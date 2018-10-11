@@ -28,13 +28,18 @@ DEBUG = True
 ALLOWED_HOSTS = ['206.189.83.32',
                 'blog.indogaming.shop',
                 '.co.id',
-		'us',
+		'.us',
                 '.id',
                 '.club',
                 '.com',
                 '.biz',
                 '.net',
-                '.shop',]
+                '.shop',
+                '.tips',
+                '.site',
+                '.club',
+                '.host'
+                '.online']
 
 
 # Application definition
@@ -162,14 +167,6 @@ STATIC_ROOT = '/mnt/volume/gaminghub/static/'
 MEDIA_ROOT =  '/mnt/volume/blog.indogaming/media/'
 MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "company_profile/static/assets"),
-    'company_profile/static/assets/',
-]
-STATICFILES_DIRS += [
-    os.path.join(BASE_DIR, "company_profile/static/dist"),
-    'company_profile/static/dist/',
-]
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend'

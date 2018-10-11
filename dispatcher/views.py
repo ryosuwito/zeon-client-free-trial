@@ -1,5 +1,6 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
@@ -67,9 +68,10 @@ class Index(Dispatcher):
                     'recent_article':recent_articles
                 }
            )
-        self.component['base'] = "company_profile/%s/base.html"%(configs.templates.dir_name) 
-        self.component['sidebar'] = "company_profile/%s/sidebar.html"%(configs.templates.dir_name) 
-        template = "company_profile/%s/index.html"%(configs.templates.dir_name)
+        else:
+            self.component['base'] = "company_profile/%s/base.html"%(configs.templates.dir_name) 
+            self.component['sidebar'] = "company_profile/%s/sidebar.html"%(configs.templates.dir_name) 
+            template = "company_profile/%s/blog-index.html"%(configs.templates.dir_name)
         return render(request, template, {
             'component': self.component,
             'configs':configs,
