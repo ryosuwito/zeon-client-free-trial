@@ -374,7 +374,7 @@ class Comment(Dispatcher):
 class ComponentRenderer:
     def get_component(self, request, token, data, configs, site, member, form, featured_image):
         main = render_to_string(self.component['main'], 
-                                    {'form': form,'token': token, 'member': member,'data': data, 'site': site, 'configs': configs,
+                                    {'form': form, 'user':request.user, token': token, 'member': member,'data': data, 'site': site, 'configs': configs,
                                     'featured_image' : featured_image})
         local_script = render_to_string(self.component['local_script'], 
                                     {'token': token, 'member': member,'data': data, 'site': site, 'configs': configs})
