@@ -166,7 +166,11 @@ class Article(LoginRequiredMixin, Dispatcher):
         comment_and_reply = comment.get_comment_and_reply(article)
         article.page_view += 1
         article.save()
-        recent_articles = ArticleModel.objects.filter(site=site, is_published=True).order_by('-created_date')[:3]
+        all_articles = ArticleModel.objects.filter(site=site, is_published=True).order_by('-created_date')
+        if all_articles>=6:
+            recent_articles = all_articles[:6]
+        else:
+            recent_articles = all_articles
 
         msg = request.GET.get('msg', 'none')
 
