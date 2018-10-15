@@ -191,7 +191,7 @@ class Article(LoginRequiredMixin, Dispatcher):
         identity = configs.brand_identity
         self.component['base'] = "company_profile/%s/base.html"%(configs.templates.dir_name) 
         self.component['sidebar'] = "company_profile/%s/sidebar.html"%(configs.templates.dir_name) 
-        template = "company_profile/%s/article-detail.html"%(configs.templates.dir_name)
+        template = "company_profile/%s/blog-post.html"%(configs.templates.dir_name)
         return render(request, template, {
             'article': article, 
             'message': message,
