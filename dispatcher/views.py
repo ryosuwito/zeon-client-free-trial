@@ -71,7 +71,7 @@ class Index(Dispatcher):
         else:
             self.component['base'] = "company_profile/%s/base.html"%(configs.templates.dir_name) 
             self.component['sidebar'] = "company_profile/%s/sidebar.html"%(configs.templates.dir_name) 
-            template = "company_profile/%s/blog-index.html"%(configs.templates.dir_name)
+            template = "company_profile/%s/index.html"%(configs.templates.dir_name)
         return render(request, template, {
             'component': self.component,
             'configs':configs,
