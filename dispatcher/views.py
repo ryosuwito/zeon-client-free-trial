@@ -121,7 +121,7 @@ class Blog(Dispatcher):
             articles = article_list
 
         if len(article_list)>=8:
-            recent_articles = article_list[:8]
+            recent_articles = random.sample(list(article_list), 8)
         else:
             recent_articles = article_list
 
