@@ -20,6 +20,8 @@ from company_profile.cp_comment.models import Comment as CommentModel
 from company_profile.cp_comment.models import Reply as ReplyModel
 from membership.models import Member
 
+import random
+
 class Dispatcher(View):
     component = {}
     def get(self, request, *args, **kwargs):
