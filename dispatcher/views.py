@@ -72,9 +72,17 @@ class Index(Dispatcher):
             self.component['base'] = "company_profile/%s/base.html"%(configs.templates.dir_name) 
             self.component['sidebar'] = "company_profile/%s/sidebar.html"%(configs.templates.dir_name) 
             template = "company_profile/%s/index.html"%(configs.templates.dir_name)
+
+        all_articles = ArticleModel.objects.filter(site=site, is_published=True).order_by('-created_date')
+        if len(all_articles)>=3:
+            recent_articles = all_articles[:3]
+        else:
+            recent_articles = all_articles
+
         return render(request, template, {
             'component': self.component,
             'configs':configs,
+            'recent_articles':recent_articles,
             'site':site,
             'assets': assets,
             'scheme': scheme,
