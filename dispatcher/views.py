@@ -122,8 +122,12 @@ class Blog(LoginRequiredMixin, Dispatcher):
         else:
             is_paginated = False
             articles = article_list
-                
-        recent_articles = articles[:3]
+
+        if len(article_list)>=8:
+            recent_articles = article_list[:8]
+        else:
+            recent_articles = article_list
+
         return render(request, template, {
             'articles': articles,
             'max_page':max_page,
