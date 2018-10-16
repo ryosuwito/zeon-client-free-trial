@@ -363,7 +363,7 @@ class Comment(Dispatcher):
         else:
             return ''
     
-    def format_reply(self, reply):
+    def format_reply(self, reply):gaminghub.id/cms/
         return {
             'created_date' : reply.created_date.strftime("%d/%B/%Y %H:%m"),
             'visitor': reply.visitor.name, 
