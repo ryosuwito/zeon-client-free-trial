@@ -359,6 +359,7 @@ class Comment(Dispatcher):
             return ''
     
     def format_reply(self, reply):
+        return {
             'created_date' : reply.created_date.strftime("%d/%B/%Y %H:%m"),
             'visitor': reply.visitor.name, 
             'content': reply.content,
