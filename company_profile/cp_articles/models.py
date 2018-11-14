@@ -5,7 +5,7 @@ from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.dispatch import receiver
 from django.utils.crypto import get_random_string
-
+from django.contrib.sitemaps import ping_google
 from taggit_selectize.managers import TaggableManager
 from ckeditor.fields import RichTextField
 
@@ -66,7 +66,16 @@ class Article(models.Model):
     def __str__(self):
         return self.title.title()
 
-            
+    
+    def save(self, force_insert=False, force_update=False):
+        super().save(force_insert, force_update)        
+        try:
+            if self.owner.is_ready:
+                ping_google()
+        except Exception:
+            # Bare 'except' because we could get a variety
+            # of HTTP-related exceptions.
+            pass
 
     def get_all_tags(self):
         return self.tags.all()

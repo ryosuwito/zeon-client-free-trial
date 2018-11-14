@@ -23,6 +23,9 @@ from company_profile.cp_comment.models import Reply as ReplyModel
 from membership.models import Member
 from django.core.exceptions import PermissionDenied
 
+from django.contrib.sitemaps import Sitemap
+from django.urls import reverse_lazy
+
 import random
 
 class Dispatcher(View):
@@ -483,3 +486,30 @@ class Reply(Dispatcher):
                     content=reply_form_data['content'], comment=comment)
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+
+class BlogSitemap(Sitemap):
+    changefreq = "monthly"
+    priority = 0.5
+
+    def items(self):
+        return ArticleModel.objects.filter(site=site, is_published=True)
+
+    def lastmod(self, obj):
+        return obj.created_date
+    
+class StaticViewSitemap(Sitemap):
+    changefreq = "monthly"
+    priority = 0.5
+
+    def items(self):
+        return PageModel.objects.filter(site=site, is_published=True)
+
+    def lastmod(self, obj):
+        return obj.created_date
+
+sitemaps = {
+    'static': StaticViewSitemap,
+    'blog': BlogSitemap,
+}

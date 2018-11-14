@@ -46,6 +46,7 @@ ALLOWED_HOSTS = ['206.189.83.32',
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.sitemaps',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
