@@ -82,8 +82,8 @@ class Index(Dispatcher):
             template = "company_profile/%s/index.html"%(configs.templates.dir_name)
 
         all_articles = ArticleModel.objects.filter(site=site, is_published=True).order_by('-created_date')
-        if len(all_articles)>=3:
-            recent_articles = all_articles[:3]
+        if len(all_articles)>=12:
+            recent_articles = all_articles[:12]
         else:
             recent_articles = all_articles
 
