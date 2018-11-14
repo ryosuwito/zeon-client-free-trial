@@ -35,7 +35,7 @@ urlpatterns = [
     path('comment/<str:article_slug>/', Comment.as_view(), name="view_all_comment"),
     path('reply/<str:article_slug>/<int:comment_pk>/<str:method>/', Reply.as_view(), name="add_reply"),
     path('articlelist/', ArticleList.as_view()),
-    re_path(r'^robots.txt$', robots),
+    re_path(r'^robots\.txt/$', robots),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
      name='django.contrib.sitemaps.views.sitemap'),
     path('<str:page_slug>/', Page.as_view()),
