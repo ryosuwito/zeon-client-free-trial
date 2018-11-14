@@ -249,3 +249,11 @@ TAGGIT_SELECTIZE = {
     'DRAG_DROP': False,
     'DELIMITER': ','
 }
+
+ROBOTS = 'User-Agent: *\
+        Disallow: \
+        Allow: /\
+        Disallow: /cms/\
+        Disallow: /core/\
+        Disallow: /media/\
+        Disallow: /static/'

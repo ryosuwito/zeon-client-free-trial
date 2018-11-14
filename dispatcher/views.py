@@ -9,6 +9,7 @@ from django.forms.models import model_to_dict
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.db.models import Sum
+from django.conf import settings
 
 from company_profile.cp_pages.models import PageModel, TempPageModel
 from company_profile.cp_articles.models import Article as ArticleModel
@@ -517,3 +518,6 @@ sitemaps = {
     'static': StaticViewSitemap,
     'blog': BlogSitemap,
 }
+
+def robots(request):
+    return HttpResponse(settings.ROBOTS)
