@@ -23,6 +23,7 @@ from company_profile.cp_comment.models import Reply as ReplyModel
 from membership.models import Member
 from django.core.exceptions import PermissionDenied
 
+from django.apps import apps as django_apps
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse_lazy
 
@@ -494,7 +495,9 @@ class BlogSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return ArticleModel.objects.filter(is_published=True)
+        Site = django_apps.get_model('sites.Site')
+        current_site = Site.objects.get_current()
+        return ArticleModel.objects.filter(site=current_site,is_published=True).order_by('-created_date')
 
     def lastmod(self, obj):
         return obj.created_date
@@ -504,7 +507,9 @@ class StaticViewSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return PageModel.objects.filter(is_published=True)
+        Site = django_apps.get_model('sites.Site')
+        current_site = Site.objects.get_current()
+        return PageModel.objects.filter(site=current_site,is_published=True).order_by('-created_date')
 
     def lastmod(self, obj):
         return obj.created_date
