@@ -38,7 +38,7 @@ ALLOWED_HOSTS = ['206.189.83.32',
                 '.tips',
                 '.site',
                 '.club',
-                '.host'
+                '.host',
                 '.online']
 
 

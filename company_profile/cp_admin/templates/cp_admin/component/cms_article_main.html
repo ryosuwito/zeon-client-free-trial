@@ -78,11 +78,13 @@
                                 <p>{{ article.created_date | naturalday }}</p>
                             </div>
                             <div class="col-xs-4 col-sm-2" style="display: flex; justify-content: center">
-                                {% if article.get_class_name != 'TempArticle' %}
-                                {% if request.user == article.author.user or request.user.is_superuser %}
+                                {% if user == article.author.user %}
                                 <p onclick="getNext('{{ article.get_edit_url }}')" class="btn btn-info btn-xs" style="margin: auto"><span class="fa fa-edit"></span> EDIT</p>
-                                <p onclick="window.open('{{ article.get_delete_url }}', '_parent')" class="btn btn-danger btn-xs" style="margin: auto"><span class="fa fa-trash"></span> DELETE</p>
-                                {% endif %}
+                                {% else %}
+                                    {% if user.is_superuser %}
+                                    <p onclick="getNext('{{ article.get_edit_url }}')" class="btn btn-info btn-xs" style="margin: auto"><span class="fa fa-edit"></span> EDIT</p>
+                                    <p onclick="window.open('{{ article.get_delete_url }}', '_parent')" class="btn btn-danger btn-xs" style="margin: auto"><span class="fa fa-trash"></span> DELETE</p>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>
