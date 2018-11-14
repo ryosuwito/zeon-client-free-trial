@@ -494,6 +494,7 @@ class BlogSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
+        site = get_current_site(self.request)
         return ArticleModel.objects.filter(site=site, is_published=True)
 
     def lastmod(self, obj):
@@ -504,6 +505,7 @@ class StaticViewSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
+        site = get_current_site(self.request)
         return PageModel.objects.filter(site=site, is_published=True)
 
     def lastmod(self, obj):
