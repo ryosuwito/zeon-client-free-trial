@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['206.189.83.32',
                 'blog.indogaming.shop',
                 '.co.id',
-		'.us',
+		        '.us',
                 '.id',
                 '.club',
                 '.com',
@@ -79,6 +79,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'crequest.middleware.CrequestMiddleware'
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]

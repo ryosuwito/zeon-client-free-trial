@@ -26,6 +26,7 @@ from django.core.exceptions import PermissionDenied
 from django.apps import apps as django_apps
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse_lazy
+from crequest.middleware import CrequestMiddleware
 
 import random
 
@@ -495,9 +496,8 @@ class BlogSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        Site = django_apps.get_model('sites.Site')
-        current_site = Site.objects.get_current()
-        return ArticleModel.objects.filter(site=current_site,is_published=True).order_by('-created_date')
+        site = get_current_site(CrequestMiddleware.get_request())
+        return ArticleModel.objects.filter(site=site,is_published=True).order_by('-created_date')
 
     def lastmod(self, obj):
         return obj.created_date
@@ -507,9 +507,8 @@ class StaticViewSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        Site = django_apps.get_model('sites.Site')
-        current_site = Site.objects.get_current()
-        return PageModel.objects.filter(site=current_site,is_published=True).order_by('-created_date')
+        site = get_current_site(CrequestMiddleware.get_request())
+        return PageModel.objects.filter(site=site,is_published=True).order_by('-created_date')
 
     def lastmod(self, obj):
         return obj.created_date
