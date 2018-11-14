@@ -41,5 +41,6 @@ class Member(models.Model):
     android_activation_code = models.CharField(max_length=8, blank=True)
     ios_activation_code = models.CharField(max_length=8, blank=True)
     site = models.OneToOneField(Site, on_delete=models.SET_NULL, null=True)
+    is_ready = models.BooleanField(default=False)
     def __str__(self):
         return self.user.username
