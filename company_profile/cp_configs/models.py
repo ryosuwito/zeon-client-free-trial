@@ -73,6 +73,15 @@ class BrandAsset(models.Model):
         
 class BrandIdentity(models.Model):
     name = models.CharField(max_length=150, blank=True)
+    meta_desc = models.CharField(max_length=150, blank=True) 
+    meta_keys = models.CharField(max_length=450, blank=True)
+    meta_google = models.CharField(max_length=450, blank=True)
+    meta_og_title = models.CharField(max_length=450, blank=True)
+    meta_og_type = models.CharField(max_length=450, blank=True)
+    meta_og_url = models.CharField(max_length=450, blank=True)
+    meta_og_image = models.CharField(max_length=450, blank=True)
+    meta_og_site_name = models.CharField(max_length=450, blank=True)
+    meta_og_desc = models.CharField(max_length=450, blank=True)
     company_name = models.CharField(max_length=250, blank=True)
     company_tagline = models.CharField(max_length=350, blank=True)
     company_address = models.CharField(max_length=450, blank=True)

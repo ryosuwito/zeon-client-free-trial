@@ -31,7 +31,17 @@ class AssetEditForm(forms.ModelForm):
 class IdentityEditForm(forms.ModelForm):
     class Meta:
         model = BrandIdentity
-        fields = ('company_name',
+        fields = (            
+            'meta_desc',
+            'meta_keys',
+            'meta_google',
+            'meta_og_title',
+            'meta_og_type',
+            'meta_og_url',
+            'meta_og_image',
+            'meta_og_site_name',
+            'meta_og_desc',
+            'company_name',
             'company_tagline', 
             'company_address', 
             'company_email_address',
