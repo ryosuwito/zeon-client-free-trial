@@ -79,7 +79,6 @@ class BrandIdentity(models.Model):
     meta_og_title = models.CharField(max_length=450, blank=True)
     meta_og_type = models.CharField(max_length=450, blank=True)
     meta_og_url = models.CharField(max_length=450, blank=True)
-    meta_og_image = models.CharField(max_length=450, blank=True)
     meta_og_site_name = models.CharField(max_length=450, blank=True)
     meta_og_desc = models.CharField(max_length=450, blank=True)
     ads_scripts = models.TextField(blank=True)

@@ -41,7 +41,6 @@ class IdentityEditForm(forms.ModelForm):
             'meta_og_title',
             'meta_og_type',
             'meta_og_url',
-            'meta_og_image',
             'meta_og_site_name',
             'meta_og_desc',
             'company_name',
