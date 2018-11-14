@@ -31,7 +31,10 @@ class AssetEditForm(forms.ModelForm):
 class IdentityEditForm(forms.ModelForm):
     class Meta:
         model = BrandIdentity
-        fields = (            
+        fields = (        
+            'ads_scripts',
+            'tracking_scripts',
+            'other_scripts',    
             'meta_desc',
             'meta_keys',
             'meta_google',
