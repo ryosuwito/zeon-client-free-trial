@@ -21,6 +21,7 @@ from company_profile.cp_comment.models import Visitor as VisitorModel
 from company_profile.cp_comment.models import Comment as CommentModel
 from company_profile.cp_comment.models import Reply as ReplyModel
 from membership.models import Member
+from django.core.exceptions import PermissionDenied
 
 import random
 
@@ -55,6 +56,11 @@ class Dispatcher(View):
 class Index(Dispatcher):
     def get(self, request, *args, **kwargs):
         data = super(Index, self).get(request, args, kwargs)
+        if not data['member'].is_ready:
+            if not request.user.member == data['member']:
+                if not request.user.is_superuser:
+                    raise PermissionDenied
+
         configs, is_created = UserConfigs.objects.get_or_create(member = data['member'])
         if is_created:
             super(Index, self).set_default_configs(configs)
@@ -92,10 +98,13 @@ class Index(Dispatcher):
         })
 
 
-class Blog(LoginRequiredMixin, Dispatcher):
-    login_url = '/cms/login/'
+class Blog(Dispatcher):
     def get(self, request, *args, **kwargs):
         data = super(Blog, self).get(request, args, kwargs)
+        if not data['member'].is_ready:
+            if not request.user.member == data['member']:
+                if not request.user.is_superuser:
+                    raise PermissionDenied
         configs = UserConfigs.objects.get(member = data['member'])
         site = data['site']
         if site.domain == 'sidomo.com':
@@ -154,10 +163,13 @@ class Blog(LoginRequiredMixin, Dispatcher):
     def post(self, request, *args, **kwargs):
         pass
 
-class Article(LoginRequiredMixin, Dispatcher):
-    login_url = '/cms/login/'
+class Article(Dispatcher):
     def get(self, request, *args, **kwargs):
         data = super(Article, self).get(request, args, kwargs)
+        if not data['member'].is_ready:
+            if not request.user.member == data['member']:
+                if not request.user.is_superuser:
+                    raise PermissionDenied
         configs = UserConfigs.objects.get(member = data['member'])
         site = data['site']
         if kwargs['kategori'] != 'preview':
@@ -225,10 +237,13 @@ class Article(LoginRequiredMixin, Dispatcher):
             'identity': identity,
         })
 
-class Page(LoginRequiredMixin, Dispatcher):
-    login_url = '/cms/login/'
+class Page(Dispatcher):
     def get(self, request, *args, **kwargs):
         data = super(Page, self).get(request, args, kwargs)
+        if not data['member'].is_ready:
+            if not request.user.member == data['member']:
+                if not request.user.is_superuser:
+                    raise PermissionDenied
         configs = UserConfigs.objects.get(member = data['member'])
         site = data['site']
         if site.domain == 'sidomo.com':
