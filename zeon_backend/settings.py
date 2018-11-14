@@ -70,7 +70,8 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'taggit',
     'taggit_selectize',
-    'django.contrib.humanize'
+    'django.contrib.humanize',
+    'crequest',
 ]
 
 MIDDLEWARE = [
