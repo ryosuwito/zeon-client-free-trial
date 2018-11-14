@@ -86,6 +86,10 @@ class Article(models.Model):
     def get_article_url(self):
         return "%s" % (reverse('blog_detail', kwargs={'kategori':self.category.all()[0].slug, 'slug':self.slug}))
 
+
+    def get_absolute_url(self):
+        return "%s" % (reverse('blog_detail', kwargs={'kategori':self.category.all()[0].slug, 'slug':self.slug}))
+
     def get_edit_url(self):
         return "%s" % (reverse('cms:article_edit_delete', kwargs={'action':'edit', 'pk':self.pk}))
 
