@@ -9,6 +9,7 @@ from company_profile.cp_articles.models import Category
 from company_profile.cp_user_configs.models import UserConfigs
 from dispatcher.views import ComponentRenderer
 from dispatcher.views import Dispatcher
+from membership.models import Staff
 
 import time
 from urllib.parse import urlparse
@@ -50,6 +51,7 @@ class CPArticle(LoginRequiredMixin, ComponentRenderer, Dispatcher):
         if self.form.is_valid():
             article = self.form.save(commit=False)
             article.site = site
+            article.author = request.user.user_staff
             article.save()
             self.form.save_m2m()
             if kwargs['action'] != 'preview':
@@ -125,6 +127,8 @@ class CPArticle(LoginRequiredMixin, ComponentRenderer, Dispatcher):
             self.set_component(kwargs)
         else :
             return HttpResponseRedirect(self.index_url)
+        
+        data['articles'] = ArticleModel.objects.filter(site=site).order_by('-created_date')    
 
         form.fields["category"].queryset = Category.objects.filter(site=site)
 
@@ -253,3 +257,4 @@ class CPCategory(LoginRequiredMixin, ComponentRenderer, Dispatcher):
                 'component':self.component,
             }
         )
+

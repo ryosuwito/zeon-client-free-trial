@@ -9,7 +9,7 @@
                         <span>Rangkuman singkat {{ site.domain }}</span>
                     </div>
                     <div class="ml-auto">
-                        <img src="{{ configs.brand_assets.get_brand_logo_url}}" width="120px" height="auto">
+                        <img src="{{ configs.brand_assets.get_brand_logo_url}}" width="220px" height="auto">
                     </div>
                 </div>
                 <hr>
@@ -78,10 +78,17 @@
                             </div>
                             <div class="col-xs-12 col-sm-12" style="text-align: left; padding: 0">
                                 <hr>
-                                {% for article in articles|slice:":5" %}
+				                {% for article in articles|slice:":5" %}
+                                <p style="margin-top:15px; margin-bottom:2px">Author: {{ article.author.user.username }}<br></p>
                                 <p onclick="window.open('{{ article.get_article_url }}', '_blank')" style="margin: 0; padding: 0" class="btn btn-link text-info">{{ article.title | title | truncatechars:60 }}</p>
+                                {% if article.get_class_name != 'TempArticle' %}
+                                {% if request.user == article.author.user or request.user.is_superuser %}
                                 <a href='javascript:void(0)' onclick="getNext('{{ article.get_edit_url }}')"class="btn btn-link btn-sm text-info"><span class="fa fa-edit"></span></a>
+                                {% endif %}
+                                {% endif %}
+                                {% if request.user.is_superuser %}
                                 <a href='javascript:void(0)' onclick="getNext('{{ article.get_delete_url }}')" class="btn btn-link btn-sm text-danger"><span class="fa fa-trash"></span></a>
+                                {% endif %}
                                 <br>
                                 {% endfor %}
                             </div>
@@ -89,7 +96,7 @@
                     </div>
                 </div>
             </div>
-            {% if site.domain != "sidomo.com" %}
+            {% if request.user.is_superuser and site.domain != "sidomo.com" %}
             <div class="col-sm-12 col-sm-12">
                 <div class="card">
                     <div class="card-body">
@@ -107,7 +114,9 @@
                                 {% for page in pages|slice:":5" %}
                                 <p onclick="window.open('{{ page.get_page_url }}', '_blank')" style="margin: 0; padding: 0" class="btn btn-link text-info">{{ page.title | title | truncatechars:60 }}</p>
                                 <a href='javascript:void(0)' onclick="getNext('{{ page.get_edit_url }}')"class="btn btn-link btn-sm text-info"><span class="fa fa-edit"></span></a>
+                                {% if request.user.is_superuser %}
                                 <a href='javascript:void(0)' onclick="getNext('{{ page.get_delete_url }}')" class="btn btn-link btn-sm text-danger"><span class="fa fa-trash"></span></a>
+                                {% endif %}
                                 <br>
                                 {% endfor %}
                             </div>
@@ -137,7 +146,9 @@
                                     {% for category in categories %}
                                     <p onclick="window.open('/{{ category.slug }}', '_blank')" style="margin: 0; padding: 0" class="btn btn-link text-info">{{category.title | truncatechars:30 | title }}</p>
                                     <a href='javascript:void(0)' onclick="getNext('{{ category.get_edit_url }}')"class="btn btn-link btn-sm text-info"><span class="fa fa-edit"></span></a>
+                                    {% if request.user.is_superuser %}
                                     <a href='javascript:void(0)' onclick="getNext('{{ category.get_delete_url }}')" class="btn btn-link btn-sm text-danger"><span class="fa fa-trash"></span></a>
+                                    {% endif %}
                                     <br>
                                     {% endfor %}
                                 </p>

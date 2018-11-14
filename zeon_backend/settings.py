@@ -20,22 +20,25 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'dli3^=1mdk6vj-d+k*e8=49o^g35gqhc7_3)l4m^++wa^h)b8j'
+SECRET_KEY = '&$y5(*%-771b)+z7y!^@6-d%&0&6+n=m9gs)$#kv9ny=r(101t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
+ALLOWED_HOSTS = ['206.189.83.32',
+                'blog.indogaming.shop',
                 '.co.id',
+		'.us',
                 '.id',
                 '.club',
                 '.com',
                 '.biz',
                 '.net',
+                '.shop',
                 '.tips',
                 '.site',
                 '.club',
-                '.host'
+                '.host',
                 '.online']
 
 
@@ -114,9 +117,9 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'db_sidomo',
-        'USER': 'db_admin',
-        'PASSWORD': 'Bismilllah123',
+        'NAME': 'cms_db',
+        'USER': 'cms_admin',
+        'PASSWORD': 'Monktoet221008',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -159,9 +162,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'company_profile/static/')
+STATIC_ROOT = '/mnt/volume/gaminghub/static/'
 
-MEDIA_ROOT =  os.path.join(BASE_DIR, '../media/')
+MEDIA_ROOT =  '/mnt/volume/blog.indogaming/media/'
 MEDIA_URL = '/media/'
 
 REST_FRAMEWORK = {
@@ -243,5 +246,3 @@ TAGGIT_SELECTIZE = {
     'DRAG_DROP': False,
     'DELIMITER': ','
 }
-
-SITE_ID = 1

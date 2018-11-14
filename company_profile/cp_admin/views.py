@@ -258,12 +258,25 @@ class Login(Dispatcher):
             user = authenticate(username=username,
                 password=password)
             if user is not None : 
-                if user.user_member.site == data['site']:
+                
+                is_allowed = False
+                try:
+                    if user.user_member.site == data['site'] :
+                        is_allowed = True
+                except:
+                    pass
+
+                try:
+                    if user.user_staff.site == data['site'] :
+                        is_allowed = True
+                except:
+                    pass
+                if is_allowed:
                     login(request, user)
                     return JsonResponse({'new_token': get_token(request), 'redirect_url':reverse('cms:index')}, status=200)
                 else:
                     return  HttpResponse(status=403)
-            return HttpResponse(status=404)
+        return HttpResponse(status=404)
 
 class Index(LoginRequiredMixin, Dispatcher):
     login_url = '/cms/login/'
