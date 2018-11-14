@@ -57,7 +57,7 @@ class Index(Dispatcher):
     def get(self, request, *args, **kwargs):
         data = super(Index, self).get(request, args, kwargs)
         if not data['member'].is_ready:
-            if not request.user.member == data['member']:
+            if not request.user.user_member == data['member']:
                 if not request.user.is_superuser:
                     raise PermissionDenied
 
@@ -102,7 +102,7 @@ class Blog(Dispatcher):
     def get(self, request, *args, **kwargs):
         data = super(Blog, self).get(request, args, kwargs)
         if not data['member'].is_ready:
-            if not request.user.member == data['member']:
+            if not request.user.user_member == data['member']:
                 if not request.user.is_superuser:
                     raise PermissionDenied
         configs = UserConfigs.objects.get(member = data['member'])
@@ -167,7 +167,7 @@ class Article(Dispatcher):
     def get(self, request, *args, **kwargs):
         data = super(Article, self).get(request, args, kwargs)
         if not data['member'].is_ready:
-            if not request.user.member == data['member']:
+            if not request.user.user_member == data['member']:
                 if not request.user.is_superuser:
                     raise PermissionDenied
         configs = UserConfigs.objects.get(member = data['member'])
@@ -241,7 +241,7 @@ class Page(Dispatcher):
     def get(self, request, *args, **kwargs):
         data = super(Page, self).get(request, args, kwargs)
         if not data['member'].is_ready:
-            if not request.user.member == data['member']:
+            if not request.user.user_member == data['member']:
                 if not request.user.is_superuser:
                     raise PermissionDenied
         configs = UserConfigs.objects.get(member = data['member'])
