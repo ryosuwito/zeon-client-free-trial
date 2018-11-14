@@ -13,7 +13,7 @@ class AddCommentForm(forms.Form):
         self.fields['content'].widget = forms.Textarea() 
         self.fields['content'].widget.attrs['rows'] = '3'
         self.fields['content'].widget.attrs['style'] = 'width:100%; padding:10px'
-        self.fields['content'].widget.attrs['placeholder'] = 'Komentar Anda'
+        self.fields['content'].widget.attrs['placeholder'] = 'Pleace leave a nice comment, and dont send a spam message :)'
 
 class AddReplyForm(forms.Form):
     content = forms.CharField(max_length=650, required=True)
@@ -22,4 +22,4 @@ class AddReplyForm(forms.Form):
         self.fields['content'].widget = forms.Textarea() 
         self.fields['content'].widget.attrs['rows'] = '3'
         self.fields['content'].widget.attrs['style'] = 'width:100%; padding:10px'
-        self.fields['content'].widget.attrs['placeholder'] = 'Komentar Anda'
+        self.fields['content'].widget.attrs['placeholder'] = 'Pleace leave a nice comment, and dont send a spam message :)'
