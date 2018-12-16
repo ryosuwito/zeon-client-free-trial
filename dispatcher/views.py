@@ -198,7 +198,7 @@ class Article(Dispatcher):
         comment_and_reply = comment.get_comment_and_reply(article)
         article.page_view += 1
         article.save()
-        all_articles = ArticleModel.objects.filter(site=site, is_published=True).order_by('-created_date')
+        all_articles = ArticleModel.objects.filter(category__in=[category], site=site, is_published=True).order_by('-created_date')
         if len(all_articles)>=8:
             recent_articles = all_articles[:8]
         else:
